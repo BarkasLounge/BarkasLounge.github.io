@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Баркас Хлебозаводский — кальянная, пицца, чай, кофе</title>
+<meta name="description" content="Баркас Хлебозаводский — искусство отдыхать заранее. Кальянная карта, римская пицца, чай, кофе. Москва, Хлебозаводский пр-д, 7а.">
+<link rel="stylesheet" href="fonts/gf-local.css">
+<style>
+:root{
+  --bg:#131212;
+  --bg-2:#0b0b0b;
+  --bg-3:#1a1817;
+  --cream:#fdf7ec;
+  --cream-soft:rgba(242,239,233,.86);
+  --muted:rgba(213,209,204,.72);
+  --line:rgba(253,247,236,.12);
+  --line-strong:rgba(253,247,236,.22);
+  --brown:#a38072;
+  --brown-light:#c4a193;
+  --blue:#6f87c0;
+  --blue-soft:#8ba1d4;
+  --fuchsia:#c95f9e;
+  --fuchsia-soft:#d97fb4;
+  --grad:linear-gradient(92deg,var(--blue-soft),var(--fuchsia-soft));
+  --grad-line:linear-gradient(90deg,var(--blue),var(--fuchsia));
+  --radius:12px;
+  --font-display:'TT-Ricordi-Allegria','Georgia','Times New Roman',serif;
+  --font-body:'TT Drugs','Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;
+  --font-accent:'Caveat',cursive;
+  --header-height:96px;
+  --offset-x:clamp(20px,4vw,64px);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font-body);
+  background:var(--bg);
+  color:var(--cream);
+  font-size:17px;
+  line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+button{font-family:inherit}
+section{scroll-margin-top:var(--header-height)}
+
+/* ---------- header ---------- */
+.header{
+  position:fixed;inset:0 0 auto 0;z-index:100;
+  height:var(--header-height);
+  display:flex;align-items:center;
+  transition:background .35s ease,border-color .35s ease,height .35s ease;
+  border-bottom:1px solid transparent;
+}
+.header.scrolled{
+  border-bottom-color:var(--line);
+  height:72px;
+}
+.header::before{
+  content:"";position:absolute;top:0;left:0;right:0;bottom:0;z-index:-1;
+  background:rgba(11,11,11,.9);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  opacity:0;pointer-events:none;
+  transition:opacity .35s ease;
+}
+.header.scrolled::before{opacity:1}
+.header__in{
+  width:100%;padding:0 var(--offset-x);
+  display:flex;align-items:center;justify-content:space-between;gap:24px;
+}
+.logo{
+  font-family:var(--font-display);
+  font-size:24px;letter-spacing:.28em;text-transform:uppercase;
+  white-space:nowrap;
+}
+.logo span{color:var(--fuchsia)}
+.nav{display:flex;align-items:center;gap:clamp(16px,2.4vw,36px)}
+.nav a{
+  font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(253,247,236,.78);
+  transition:color .25s ease;
+}
+.nav a:hover{color:var(--cream)}
+.header__phone{
+  font-size:14px;letter-spacing:.1em;
+  white-space:nowrap;
+  border-bottom:1px solid rgba(163,128,114,.6);
+  padding-bottom:2px;transition:border-color .25s ease;
+}
+.header__phone:hover{border-color:var(--blue-soft);color:var(--blue-soft)}
+.header__call,.header__tg{
+  display:flex;align-items:center;justify-content:center;
+  width:44px;height:44px;
+  border:1px solid var(--line-strong);border-radius:10px;
+  color:var(--cream);transition:color .25s ease,border-color .25s ease;
+}
+.header__call:hover,.header__tg:hover{color:var(--blue-soft);border-color:var(--blue-soft)}
+.burger{
+  display:none;
+  width:44px;height:44px;
+  background:none;border:1px solid var(--line-strong);
+  border-radius:10px;
+  cursor:pointer;position:relative;
+}
+.burger span,.burger span::before,.burger span::after{
+  position:absolute;left:50%;top:50%;
+  width:18px;height:1.5px;background:var(--cream);
+  transform:translate(-50%,-50%);
+  transition:transform .3s ease,opacity .3s ease,background .3s ease;
+}
+.burger span::before,.burger span::after{content:""}
+.burger span::before{transform:translate(-50%,-7px)}
+.burger span::after{transform:translate(-50%,5.5px)}
+.burger.open span{background:transparent}
+.burger.open span::before{transform:translate(-50%,-50%) rotate(45deg)}
+.burger.open span::after{transform:translate(-50%,-50%) rotate(-45deg)}
+
+/* ---------- hero ---------- */
+.hero{
+  position:relative;
+  min-height:100svh;
+  display:flex;flex-direction:column;justify-content:center;
+  background:var(--bg-2);
+  overflow:hidden;
+}
+.hero__bg{
+  position:absolute;inset:-12% 0;
+  background:url("barkas_files/hero.jpg") center/cover no-repeat;
+  filter:grayscale(20%) brightness(.55) contrast(1.04);
+  will-change:transform;
+}
+.hero__veil{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(55% 45% at 82% 78%,rgba(201,95,158,.16) 0%,transparent 70%),
+    radial-gradient(60% 50% at 12% 82%,rgba(111,135,192,.18) 0%,transparent 70%),
+    radial-gradient(120% 90% at 72% 18%,rgba(19,18,18,.1) 0%,rgba(19,18,18,.82) 100%),
+    linear-gradient(to bottom,rgba(11,11,11,.6) 0%,rgba(11,11,11,.25) 42%,rgba(11,11,11,.95) 100%);
+}
+.hero__in{
+  position:relative;z-index:2;
+  padding:calc(var(--header-height) + 20px) var(--offset-x) 120px;
+  max-width:1280px;
+}
+.hero__eyebrow{
+  display:flex;align-items:center;gap:16px;
+  font-size:12.5px;letter-spacing:.32em;text-transform:uppercase;
+  color:var(--blue-soft);
+  margin-bottom:34px;
+  opacity:0;animation:fadeUp 1s ease .25s forwards;
+}
+.hero__eyebrow::before{content:"";width:56px;height:1px;background:var(--grad-line)}
+.hero__title{
+  font-family:var(--font-accent);font-weight:600;letter-spacing:.05em;
+  font-size:clamp(60px,10.6vw,176px);
+  line-height:1.1;
+}
+.hero__title em{
+  font-style:italic;
+  padding-right:.15em;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;
+  color:transparent;-webkit-text-fill-color:transparent;
+}
+.hero__title .ch{
+  display:inline-block;
+  opacity:0;
+  transform:translateY(.4em) rotate(5deg);
+  filter:blur(6px);
+  animation:chIn .9s cubic-bezier(.19,.66,.22,1) forwards;
+  animation-delay:calc(var(--i) * 42ms + 350ms);
+}
+@keyframes chIn{to{opacity:1;transform:none;filter:blur(0)}}
+.hero__sub{
+  margin-top:34px;
+  max-width:560px;
+  font-size:clamp(17px,1.8vw,22px);
+  line-height:1.6;
+  color:var(--cream-soft);
+  opacity:0;animation:fadeUp 1s ease 1.5s forwards;
+}
+.hero__meta{
+  margin-top:44px;
+  display:flex;flex-wrap:wrap;gap:14px 44px;
+  font-size:14px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);
+  opacity:0;animation:fadeUp 1s ease 1.7s forwards;
+}
+.hero__meta a{border-bottom:1px solid rgba(213,209,204,.4);transition:color .25s ease,border-color .25s ease}
+.hero__meta a:hover{color:var(--cream);border-color:var(--cream)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+.hero__scroll{
+  position:absolute;z-index:2;
+  right:var(--offset-x);bottom:0;
+  writing-mode:vertical-rl;
+  font-size:11px;letter-spacing:.4em;text-transform:uppercase;
+  color:rgba(253,247,236,.6);
+  display:flex;align-items:center;gap:14px;
+  padding-bottom:36px;
+  opacity:0;animation:fadeUp 1s ease 2s forwards;
+}
+.hero__scroll::after{
+  content:"";width:1px;height:64px;
+  background:linear-gradient(to bottom,var(--blue),var(--fuchsia),transparent);
+  animation:scrollPulse 2.2s ease-in-out infinite;
+}
+@keyframes scrollPulse{0%,100%{transform:scaleY(.35);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}}
+
+/* ---------- sections ---------- */
+.section{padding:clamp(90px,11vw,160px) 0;position:relative}
+.section--bg{background:var(--bg)}
+.section--bg2{background:var(--bg-2)}
+.section__in{max-width:1280px;margin:0 auto;padding:0 var(--offset-x)}
+.s-head{margin-bottom:clamp(48px,6vw,80px)}
+.s-num{
+  font-size:12.5px;letter-spacing:.34em;text-transform:uppercase;
+  margin-bottom:22px;
+  display:flex;align-items:center;gap:16px;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;
+  color:transparent;-webkit-text-fill-color:transparent;width:max-content;max-width:100%;
+}
+.s-num::after{content:"";flex:0 0 56px;height:1px;background:var(--grad-line);opacity:.8}
+.s-title{
+  font-family:var(--font-accent);font-weight:600;letter-spacing:.05em;
+  font-size:clamp(46px,6.6vw,96px);
+  line-height:1.15;
+}
+.s-title em{
+  font-style:italic;
+  padding-right:.15em;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;
+  color:transparent;-webkit-text-fill-color:transparent;
+}
+.s-note{
+  margin-top:24px;max-width:620px;
+  font-size:16.5px;line-height:1.75;color:var(--muted);
+}
+
+/* ---------- hookah cards ---------- */
+.cards-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:clamp(14px,2vw,20px);
+}
+.card{
+  background:var(--bg);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:clamp(28px,3.4vw,44px);
+  display:flex;flex-direction:column;gap:16px;
+  transition:background .35s ease,border-color .35s ease;
+}
+.section--bg2 .card{background:var(--bg-2)}
+.card:hover{background:var(--bg-3);border-color:rgba(139,161,212,.35)}
+.card__num{
+  font-family:var(--font-display);font-style:italic;
+  font-size:15px;color:var(--fuchsia-soft);
+}
+.card__name{
+  font-family:var(--font-accent);font-weight:600;letter-spacing:.05em;
+  font-size:clamp(30px,3vw,40px);line-height:1.2;
+}
+.card__desc{font-size:15.5px;line-height:1.7;color:var(--muted);flex:1}
+.card__price{
+  font-family:var(--font-display);
+  font-size:clamp(24px,2.3vw,30px);
+  border-top:1px solid var(--line);
+  padding-top:18px;
+  transition:color .3s ease;
+}
+.card:hover .card__price{color:var(--fuchsia-soft)}
+.card__price small{font-size:.55em;color:var(--blue-soft);letter-spacing:.08em}
+
+/* ---------- hookah photo cards ---------- */
+.card--photo{position:relative;overflow:hidden}
+.card--photo::before{
+  content:"";position:absolute;inset:0;z-index:0;
+  background:var(--card-photo) center/cover no-repeat;
+  filter:blur(6px) brightness(.55) saturate(.85);
+  transform:scale(1.12);
+  transition:filter .4s ease;
+}
+.card--photo:hover::before{filter:blur(4.5px) brightness(.62) saturate(.9)}
+.card--photo>*{position:relative;z-index:1}
+
+/* ---------- pizza photo cards ---------- */
+.pizza-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr));
+  gap:clamp(18px,2.4vw,28px);
+}
+.pizza{
+  position:relative;
+  background:var(--bg);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  overflow:hidden;
+  display:flex;flex-direction:column;
+  transition:transform .45s cubic-bezier(.2,.65,.25,1),border-color .35s ease,box-shadow .45s ease;
+}
+.pizza:hover{
+  transform:translateY(-8px);
+  border-color:rgba(217,127,180,.5);
+  box-shadow:0 30px 60px -30px rgba(0,0,0,.8);
+}
+.pizza__photo{
+  position:relative;
+  aspect-ratio:16/11;
+  overflow:hidden;
+}
+.pizza__photo img{
+  width:100%;height:100%;object-fit:cover;
+  filter:saturate(1) brightness(1);
+  transition:transform .8s cubic-bezier(.2,.65,.25,1),filter .5s ease;
+}
+.pizza:hover .pizza__photo img{transform:scale(1.07);filter:saturate(1.2) brightness(1.16)}
+.pizza__photo::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(11,11,11,.45) 0%,transparent 45%);
+}
+.pizza__price{
+  position:absolute;right:16px;bottom:14px;z-index:2;
+  font-family:var(--font-display);
+  font-size:clamp(22px,2vw,28px);
+  color:var(--cream);
+  background:rgba(11,11,11,.72);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  border:1px solid var(--line-strong);
+  border-radius:8px;
+  padding:6px 16px;
+}
+.pizza__price small{font-size:.55em;color:var(--blue-soft)}
+.pizza__body{
+  padding:clamp(22px,2.4vw,30px);
+  display:flex;flex-direction:column;gap:12px;flex:1;
+}
+.pizza__name{
+  font-family:var(--font-accent);font-weight:600;letter-spacing:.05em;
+  font-size:clamp(28px,2.7vw,36px);line-height:1.2;
+}
+.pizza__desc{font-size:15px;line-height:1.7;color:var(--muted)}
+
+/* ---------- tea ---------- */
+.tea-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr));
+  gap:clamp(28px,3.4vw,44px);
+}
+.tea-cat{
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:clamp(26px,3vw,40px);
+  background:rgba(253,247,236,.02);
+  transition:border-color .35s ease,background .35s ease;
+}
+.tea-cat:hover{border-color:rgba(111,135,192,.45);background:rgba(253,247,236,.04)}
+.tea-cat__head{
+  display:flex;align-items:baseline;justify-content:space-between;gap:20px;
+  padding-bottom:18px;
+  border-bottom:1px solid var(--line-strong);
+}
+.tea-cat__name{font-family:var(--font-accent);font-weight:600;letter-spacing:.05em;font-size:clamp(31px,3.1vw,41px);line-height:1.2}
+.tea-cat__price{
+  font-family:var(--font-display);font-style:italic;
+  font-size:clamp(21px,2.2vw,27px);
+  color:var(--blue-soft);white-space:nowrap;
+}
+.tea-cat__note{font-size:14.5px;line-height:1.65;color:var(--muted);padding:14px 0 4px}
+.tea-grid + .tea-grid{margin-top:clamp(28px,3.4vw,44px)}
+.tea-grid--3{grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.tea-feature{
+  background:rgba(253,247,236,.03);
+  border-color:rgba(139,161,212,.32);
+  display:flex;flex-direction:column;
+}
+.tea-feature:hover{border-color:rgba(217,127,180,.5)}
+.tea-feature__tag{
+  font-size:11.5px;letter-spacing:.3em;text-transform:uppercase;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;
+  color:transparent;-webkit-text-fill-color:transparent;
+  width:max-content;max-width:100%;
+  margin-bottom:14px;
+}
+.tea-feature__phrase{
+  font-family:var(--font-display);font-style:italic;
+  font-size:clamp(19px,1.9vw,24px);
+  line-height:1.55;
+  color:var(--cream);
+  margin-top:16px;
+}
+.tea-feature .tea-cat__note{margin-top:auto;padding-top:18px}
+.tea-cat li{
+  display:block;
+  padding:15px 0;
+  border-bottom:1px solid var(--line);
+  transition:padding-left .3s ease;
+}
+.tea-cat li:hover{padding-left:10px}
+.tea-cat li span:first-child{display:block;font-size:17.5px;color:var(--cream)}
+.tea-cat li span:last-child:not(:first-child){
+  display:block;
+  font-size:14px;color:var(--muted);
+  text-align:right;
+  margin-top:4px;
+}
+
+/* ---------- gallery ---------- */
+.gallery{background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.gallery__head{text-align:center;padding:clamp(40px,6vw,80px) var(--offset-x) clamp(22px,3vw,36px)}
+.gallery__grid{
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:clamp(10px,1.4vw,18px);
+}
+.gallery figure{
+  grid-column:span 2;
+  aspect-ratio:3/4;
+  overflow:hidden;
+  position:relative;
+  border-radius:var(--radius);
+}
+.gallery figure:nth-child(4),
+.gallery figure:nth-child(5){
+  grid-column:span 3;
+  aspect-ratio:16/10;
+}
+.gallery img{
+  width:100%;height:112%;object-fit:cover;
+  filter:grayscale(35%) brightness(.85);
+  transition:filter .5s ease,transform .8s cubic-bezier(.2,.65,.25,1);
+  will-change:transform;
+}
+.gallery figure:hover img{filter:grayscale(0) brightness(1);transform:scale(1.05)}
+.quote-band{
+  text-align:center;
+  padding:clamp(70px,9vw,130px) var(--offset-x) 0;
+}
+.quote-band p{
+  font-family:var(--font-display);font-style:italic;
+  font-size:clamp(28px,4.4vw,58px);
+  line-height:1.25;
+  color:var(--cream);
+  max-width:980px;margin:0 auto;
+}
+.quote-band p span{
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;
+  color:transparent;-webkit-text-fill-color:transparent;
+  padding-right:.15em;
+}
+
+/* ---------- coffee ---------- */
+.menu-row__price em{font-style:normal;font-size:.72em;color:var(--muted);letter-spacing:.06em;margin-right:.18em}
+.menu-list{border-top:1px solid var(--line)}
+.menu-row{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:8px 48px;
+  padding:30px 0;
+  border-bottom:1px solid var(--line);
+  transition:padding-left .3s ease;
+}
+.menu-row:hover{padding-left:12px}
+.menu-row__name{
+  font-family:var(--font-accent);font-weight:600;letter-spacing:.05em;
+  font-size:clamp(29px,3vw,41px);
+  line-height:1.2;
+}
+.menu-row__price{
+  font-family:var(--font-display);
+  font-size:clamp(22px,2.3vw,30px);
+  white-space:nowrap;
+  text-align:right;
+  transition:color .3s ease;
+}
+.menu-row:hover .menu-row__price{color:var(--fuchsia-soft)}
+.menu-row__price .unit{font-size:.55em;color:var(--blue-soft);letter-spacing:.08em}
+.menu-row__desc{
+  grid-column:1;
+  max-width:680px;
+  font-size:15.5px;line-height:1.7;color:var(--muted);
+}
+
+/* ---------- promo ---------- */
+.promo-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:clamp(14px,2vw,20px);
+}
+.promo{
+  background:var(--bg);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:clamp(28px,3.4vw,46px);
+  display:flex;flex-direction:column;gap:14px;
+  transition:background .35s ease,border-color .35s ease;
+}
+.promo:hover{background:var(--bg-3);border-color:rgba(139,161,212,.35)}
+.promo__tag{
+  font-size:11.5px;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--blue-soft);
+}
+.promo__name{
+  font-family:var(--font-accent);font-weight:600;letter-spacing:.05em;
+  font-size:clamp(28px,2.8vw,36px);line-height:1.2;
+}
+.promo__desc{font-size:15px;line-height:1.7;color:var(--muted)}
+.promo__value{
+  font-family:var(--font-display);font-style:italic;
+  font-size:clamp(24px,2.6vw,34px);
+  padding-right:.15em;
+  margin-top:auto;padding-top:14px;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;
+  color:transparent;-webkit-text-fill-color:transparent;width:max-content;max-width:100%;
+}
+.promo__value small{font-size:.44em;letter-spacing:.08em}
+
+/* ---------- contacts ---------- */
+.contacts-list{border-top:1px solid var(--line)}
+.contact-row{
+  display:grid;
+  grid-template-columns:200px minmax(0,1fr);
+  gap:10px 40px;
+  padding:36px 0;
+  border-bottom:1px solid var(--line);
+  align-items:baseline;
+}
+.contact-row__label{
+  font-size:12.5px;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--blue-soft);
+}
+.contact-row__value{font-size:clamp(18px,2vw,23px);line-height:1.6}
+.contact-row__value a.phone{
+  font-family:var(--font-display);
+  font-size:clamp(26px,3.2vw,44px);
+  border-bottom:1px solid rgba(196,161,147,.5);
+  transition:color .25s ease,border-color .25s ease;
+}
+.contact-row__value a.phone:hover{color:var(--blue-soft);border-color:var(--blue-soft)}
+.contact-row__value .dim{color:var(--muted);font-size:.78em}
+.btn{
+  display:inline-flex;align-items:center;gap:12px;
+  margin-top:18px;
+  border-radius:10px;
+  font-size:12.5px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--cream);
+  border:1px solid var(--line-strong);
+  padding:15px 28px;
+  position:relative;overflow:hidden;
+  transition:color .35s ease,border-color .35s ease;
+}
+.btn::before{
+  content:"";position:absolute;inset:0;
+  background:var(--cream);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .4s cubic-bezier(.2,.65,.25,1);
+  z-index:0;
+}
+.btn span{position:relative;z-index:1}
+.btn:hover{color:var(--bg-2);border-color:var(--cream)}
+.btn:hover::before{transform:scaleX(1)}
+
+.venue-link{
+  display:inline-flex;align-items:baseline;gap:14px;
+  font-size:clamp(18px,2vw,24px);
+  border-bottom:1px solid rgba(139,161,212,.5);
+  padding-bottom:2px;
+  transition:color .25s ease,border-color .25s ease;
+}
+.venue-link:hover{color:var(--blue-soft);border-color:var(--blue-soft)}
+.venue-link .dim{font-size:.62em;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+
+/* ---------- footer ---------- */
+.footer{background:var(--bg-2);color:var(--muted);padding:46px 0;border-top:1px solid var(--line)}
+.footer__in{
+  max-width:1280px;margin:0 auto;padding:0 var(--offset-x);
+  display:flex;flex-wrap:wrap;gap:14px 40px;
+  align-items:center;justify-content:space-between;
+  font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;
+}
+.footer__logo{font-family:var(--font-display);font-size:17px;letter-spacing:.28em;color:var(--cream)}
+.footer__logo span{color:var(--fuchsia)}
+
+/* ---------- reveal ---------- */
+.reveal{opacity:0;transform:translateY(34px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.65,.25,1);transition-delay:var(--d,0ms)}
+.reveal.visible{opacity:1;transform:none}
+
+/* ---------- mobile ---------- */
+@media (max-width:920px){
+  :root{--header-height:70px}
+  .header__in{gap:12px}
+  .nav{
+    position:fixed;top:0;left:0;right:0;bottom:0;z-index:90;
+    background:rgba(11,11,11,.97);
+    flex-direction:column;justify-content:center;gap:34px;
+    opacity:0;visibility:hidden;pointer-events:none;
+    transition:opacity .3s ease,visibility .3s ease;
+  }
+  .nav.open{opacity:1;visibility:visible;pointer-events:auto}
+  .nav a{font-size:22px;letter-spacing:.24em}
+  .burger{display:block;z-index:110}
+  .header__call,.header__tg{z-index:110}
+  .header__phone{display:none}
+  .contact-row{grid-template-columns:1fr}
+  .gallery__grid{grid-template-columns:repeat(2,1fr)}
+  .gallery figure,.gallery figure:nth-child(4),.gallery figure:nth-child(5){grid-column:auto;aspect-ratio:4/5}
+  .hero__scroll{display:none}
+  .menu-row{grid-template-columns:1fr auto}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001s !important;transition-duration:.001s !important}
+  .hero__title .ch{opacity:1;transform:none;filter:none}
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<header class="header" id="header">
+  <div class="header__in">
+    <a class="logo" href="index.html">Баркас<span>.</span></a>
+    <nav class="nav" id="nav">
+      <a href="#hookah">Кальяны</a>
+      <a href="#pizza">Пицца</a>
+      <a href="#tea">Чай</a>
+      <a href="#coffee">Кофе</a>
+      <a href="#promo">Акции</a>
+      <a href="#contacts">Контакты</a>
+    </nav>
+    <a class="header__phone" href="tel:+79647999998">+7 964 799 99 98</a>
+    <a class="header__tg" href="https://t.me/BarkasLounge" target="_blank" rel="noopener" aria-label="Telegram-канал"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 15 22l-4-9-9-4 20-7z"/><path d="M22 2 11 13"/></svg></a>
+    <a class="header__call" href="tel:+79647999998" aria-label="Позвонить"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></a>
+    <button class="burger" id="burger" aria-label="Меню" aria-expanded="false"><span></span></button>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero__bg" data-parallax="0.18" role="presentation"></div>
+    <div class="hero__veil" role="presentation"></div>
+    <div class="hero__in">
+      <p class="hero__eyebrow">Кальяны · Пицца · Чай · Кофе</p>
+      <h1 class="hero__title"><span data-split>Баркас</span><br><em data-split>Хлебозаводский</em></h1>
+      <p class="hero__sub">Искусство отдыхать заранее</p>
+      <div class="hero__meta">
+        <span>Москва, Хлебозаводский пр-д, 7а</span>
+        <a href="tel:+79647999998">+7 964 799 99 98</a>
+      </div>
+    </div>
+    <div class="hero__scroll">Скролль вниз</div>
+  </section>
+
+  <!-- HOOKAH -->
+  <section class="section section--bg" id="hookah">
+    <div class="section__in">
+      <div class="s-head reveal">
+        <p class="s-num">01 — Кальянная карта</p>
+        <h2 class="s-title">Кальяны <em>как арт-объекты</em></h2>
+        <p class="s-note">Классика, сигарные бленды и авторские исполнения чаш от амбассадоров заведения.</p>
+      </div>
+      <div class="cards-grid" data-stagger>
+        <div class="card reveal card--photo" style="--card-photo:url('img/hookah/hookah-classic.jpg')">
+          <p class="card__num">01</p>
+          <h3 class="card__name">Классика</h3>
+          <p class="card__desc">Знакомая всем чаша</p>
+          <p class="card__price">2 200 <small>₽</small></p>
+        </div>
+        <div class="card reveal card--photo" style="--card-photo:url('img/hookah/hookah-cigar-bowl.jpg')">
+          <p class="card__num">02</p>
+          <h3 class="card__name">Сигарная чаша</h3>
+          <p class="card__desc">Чаша с использованием блендов сигарного листа</p>
+          <p class="card__price">2 400 <small>₽</small></p>
+        </div>
+        <div class="card reveal card--photo" style="--card-photo:url('img/hookah/hookah-grapefruit.jpg')">
+          <p class="card__num">03</p>
+          <h3 class="card__name">Грейпфрут</h3>
+          <p class="card__desc">Легендарное авторское исполнение чаши на грейпфруте от амбассадоров заведения. Непревзойдённое качество и длительность сеанса курения от 2-х часов</p>
+          <p class="card__price">2 950 <small>₽</small></p>
+        </div>
+        <div class="card reveal card--photo" style="--card-photo:url('img/hookah/hookah-milk.jpg')">
+          <p class="card__num">04</p>
+          <h3 class="card__name">Кальян на молоке</h3>
+          <p class="card__desc">Использование молока в колбе придает бархатистую сливочную нотку, дополняя и раскрывая вкусовую палитру</p>
+          <p class="card__price"><small>+&thinsp;</small>350 <small>₽</small></p>
+        </div>
+        <div class="card reveal card--photo" style="--card-photo:url('img/hookah/hookah-ice.jpg')">
+          <p class="card__num">05</p>
+          <h3 class="card__name">Ледяная колба</h3>
+          <p class="card__desc">Добавление льда в колбу</p>
+          <p class="card__price"><small>+&thinsp;</small>350 <small>₽</small></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PIZZA -->
+  <section class="section section--bg2" id="pizza">
+    <div class="section__in">
+      <div class="s-head reveal">
+        <p class="s-num">02 — Кухня</p>
+        <h2 class="s-title">Римская <em>пицца</em></h2>
+        <p class="s-note">Тонкое римское тесто, горячая моцарелла и щедрые начинки. Базовая цена — 860 ₽.</p>
+      </div>
+      <div class="pizza-grid" data-stagger>
+        <article class="pizza reveal">
+          <div class="pizza__photo">
+            <img src="barkas_files/pizza-pepperoni.jpg" alt="Дабл Пепперони" loading="lazy">
+            <p class="pizza__price">860 <small>₽</small></p>
+          </div>
+          <div class="pizza__body">
+            <h3 class="pizza__name">Дабл Пепперони</h3>
+            <p class="pizza__desc">Любимая пепперони с бооооольшим количеством аппетитных колбасок! Томатная основа, горячая моцарелла и много-много сочной пепперони!</p>
+          </div>
+        </article>
+        <article class="pizza reveal">
+          <div class="pizza__photo">
+            <img src="barkas_files/pizza-bbq.jpg" alt="Бекон Барбекю" loading="lazy">
+            <p class="pizza__price">860 <small>₽</small></p>
+          </div>
+          <div class="pizza__body">
+            <h3 class="pizza__name">Бекон Барбекю</h3>
+            <p class="pizza__desc">Ярко, сочно! Томатная основа, горячая моцарелла, аппетитный бекон, слайсы шампиньонов, красный лук и мнооого фирменного соуса барбекю.</p>
+          </div>
+        </article>
+        <article class="pizza reveal">
+          <div class="pizza__photo">
+            <img src="barkas_files/pizza-salsa.jpg" alt="Супермясная Сальса" loading="lazy">
+            <p class="pizza__price">860 <small>₽</small></p>
+          </div>
+          <div class="pizza__body">
+            <h3 class="pizza__name">Супермясная Сальса</h3>
+            <p class="pizza__desc">Как же много начинки! Томатная основа, горячая моцарелла, много пепперони, слайсы бекона, ветчина из индейки, стручковая фасоль, кукуруза и еще сооооус сальса. Объедение!</p>
+          </div>
+        </article>
+        <article class="pizza reveal">
+          <div class="pizza__photo">
+            <img src="barkas_files/pizza-pesto.jpg" alt="Маргарита Песто" loading="lazy">
+            <p class="pizza__price">860 <small>₽</small></p>
+          </div>
+          <div class="pizza__body">
+            <h3 class="pizza__name">Маргарита Песто</h3>
+            <p class="pizza__desc">Простая, но не скучная классика! Томатная основа, горячая тянущаяся моцарелла и оригинальный соус песто.</p>
+          </div>
+        </article>
+        <article class="pizza reveal">
+          <div class="pizza__photo">
+            <img src="barkas_files/pizza-bechamel.jpg" alt="Цыпленок Бешамель" loading="lazy">
+            <p class="pizza__price"><small>+&thinsp;</small>350 <small>₽</small></p>
+          </div>
+          <div class="pizza__body">
+            <h3 class="pizza__name">Цыпленок Бешамель</h3>
+            <p class="pizza__desc">Когда хочется курочки! Авторский соус бешамель в основе, тянущаяся моцарелла, подкопченный цыпленок, слайсы шампиньонов, болгарский перец, кукуруза.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEA -->
+  <section class="section section--bg" id="tea">
+    <div class="section__in">
+      <div class="s-head reveal">
+        <p class="s-num">03 — Чайная карта</p>
+        <h2 class="s-title">Чай — <em>эстетика вкуса</em></h2>
+        <p class="s-note">Вы можете добавить в чай дополнительные травы или фрукты. Уточняйте у администратора.</p>
+      </div>
+      <div class="tea-grid" data-stagger>
+        <div class="tea-cat tea-feature reveal">
+          <p class="tea-feature__tag">Под ваше настроение</p>
+          <h3 class="tea-cat__name">Авторский чай</h3>
+          <p class="tea-feature__phrase">Расскажите, какое у вас настроение, — и мы соберём чай именно под него: согревающий, бодрящий или медитативный.</p>
+          <p class="tea-cat__note">750 ₽ · не входит в депозит · собран индивидуально под вас</p>
+        </div>
+        <div class="tea-cat tea-feature reveal">
+          <p class="tea-feature__tag">Сезонное предложение</p>
+          <h3 class="tea-cat__name">Сезонный чай</h3>
+          <p class="tea-feature__phrase">Собран так, чтобы поддержать вас даже в самую плохую погоду.</p>
+          <p class="tea-cat__note">Состав сезона уточняйте у администратора</p>
+        </div>
+      </div>
+      <div class="tea-grid tea-grid--3" data-stagger>
+        <div class="tea-cat reveal">
+          <div class="tea-cat__head">
+            <h3 class="tea-cat__name">Китайский чай</h3>
+            <p class="tea-cat__price">400 ₽</p>
+          </div>
+          <ul>
+            <li><span>Шу пуэр</span><span>элитный китайский чай</span></li>
+            <li><span>Молочный улун</span><span>улун особого вида выращивания</span></li>
+            <li><span>Манговый улун</span><span>оолонг / цукаты папайи и манго</span></li>
+            <li><span>Тайваньский улун</span><span>классический тайваньский улун</span></li>
+            <li><span>Да хун пао</span><span>классический красный чай</span></li>
+          </ul>
+        </div>
+        <div class="tea-cat reveal">
+          <div class="tea-cat__head">
+            <h3 class="tea-cat__name">Чёрный чай</h3>
+            <p class="tea-cat__price">400 ₽</p>
+          </div>
+          <ul>
+            <li><span>Свежие ягоды</span><span>каркаде / черника / вишня / ежевика / клубника</span></li>
+            <li><span>Ройбуш</span><span>африканский чай</span></li>
+            <li><span>Индийский чёрный</span><span>классический среднелистовой</span></li>
+          </ul>
+        </div>
+        <div class="tea-cat reveal">
+          <div class="tea-cat__head">
+            <h3 class="tea-cat__name">Фруктовый чай</h3>
+            <p class="tea-cat__price">400 ₽</p>
+          </div>
+          <ul>
+            <li><span>Вишневый рай</span><span>каркаде / вишня / яблоко</span></li>
+            <li><span>Малиновый коктейль</span><span>лемонграсс / мята / папайя / малина</span></li>
+            <li><span>Мужская энергия</span><span>чабрец / зверобой / шиповник / ромашка</span></li>
+            <li><span>Зеленый с жасмин</span><span>сенча с цветами жасмина</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY + QUOTE -->
+  <section class="gallery">
+    <div class="gallery__head reveal">
+      <h2 class="s-title">Наш <em>вайб</em></h2>
+    </div>
+    <div class="gallery__grid" data-stagger>
+      <figure class="reveal"><img src="barkas_files/lounge-1.jpg" alt="Баркас — атмосфера заведения" loading="lazy" data-parallax="0.06"></figure>
+      <figure class="reveal"><img src="barkas_files/lounge-2.jpg" alt="Баркас — атмосфера заведения" loading="lazy" data-parallax="0.02"></figure>
+      <figure class="reveal"><img src="barkas_files/lounge-3.jpg" alt="Баркас — атмосфера заведения" loading="lazy" data-parallax="0.06"></figure>
+      <figure class="reveal"><img src="barkas_files/lounge-4.jpg" alt="Баркас — атмосфера заведения" loading="lazy" data-parallax="0.03"></figure>
+      <figure class="reveal"><img src="barkas_files/lounge-5.jpg" alt="Баркас — атмосфера заведения" loading="lazy" data-parallax="0.03"></figure>
+    </div>
+    <div class="quote-band reveal">
+      <p>«Искусство отдыхать — <span>заранее</span>»</p>
+    </div>
+  </section>
+
+  <!-- COFFEE -->
+  <section class="section section--bg2" id="coffee">
+    <div class="section__in">
+      <div class="s-head reveal">
+        <p class="s-num">04 — Кофейная карта</p>
+        <h2 class="s-title">Кофе. <em>Чем крепче, тем сильнее объятья</em></h2>
+        <p class="s-note">Цены указаны по объёмам: S / M / L.</p>
+      </div>
+      <div class="menu-list reveal">
+        <div class="menu-row">
+          <div class="menu-row__name">Двойной эспрессо</div>
+          <div class="menu-row__price"><em>S</em>&thinsp;120&thinsp;/&thinsp;<em>M</em>&thinsp;170&thinsp;/&thinsp;<em>L</em>&thinsp;220 <span class="unit">₽</span></div>
+        </div>
+        <div class="menu-row">
+          <div class="menu-row__name">Американо</div>
+          <div class="menu-row__price"><em>S</em>&thinsp;205&thinsp;/&thinsp;<em>M</em>&thinsp;230&thinsp;/&thinsp;<em>L</em>&thinsp;260 <span class="unit">₽</span></div>
+        </div>
+        <div class="menu-row">
+          <div class="menu-row__name">Флэт уайт</div>
+          <div class="menu-row__price"><em>S</em>&thinsp;250&thinsp;/&thinsp;<em>M</em>&thinsp;290 <span class="unit">₽</span></div>
+        </div>
+        <div class="menu-row">
+          <div class="menu-row__name">Капучино</div>
+          <div class="menu-row__price"><em>S</em>&thinsp;235&thinsp;/&thinsp;<em>M</em>&thinsp;260&thinsp;/&thinsp;<em>L</em>&thinsp;290 <span class="unit">₽</span></div>
+        </div>
+        <div class="menu-row">
+          <div class="menu-row__name">Латте</div>
+          <div class="menu-row__price"><em>S</em>&thinsp;230&thinsp;/&thinsp;<em>M</em>&thinsp;260&thinsp;/&thinsp;<em>L</em>&thinsp;290 <span class="unit">₽</span></div>
+        </div>
+        <div class="menu-row">
+          <div class="menu-row__name">Раф</div>
+          <div class="menu-row__price"><em>S</em>&thinsp;250&thinsp;/&thinsp;<em>M</em>&thinsp;280&thinsp;/&thinsp;<em>L</em>&thinsp;320 <span class="unit">₽</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROMO -->
+  <section class="section section--bg" id="promo">
+    <div class="section__in">
+      <div class="s-head reveal">
+        <p class="s-num">05 — Акции</p>
+        <h2 class="s-title">Настало время <em>приятных сюрпризов</em></h2>
+      </div>
+      <div class="promo-grid" data-stagger>
+        <div class="promo reveal">
+          <p class="promo__tag">День рождения</p>
+          <h3 class="promo__name">Скидка именинникам</h3>
+          <p class="promo__desc">Именинникам скидка 7% на весь счет</p>
+          <p class="promo__value">−7<small>%</small></p>
+        </div>
+        <div class="promo reveal">
+          <p class="promo__tag">Счастливые часы</p>
+          <h3 class="promo__name">Будни до 16:00</h3>
+          <p class="promo__desc">Кальян на классической чаше + чай</p>
+          <p class="promo__value">2 100 <small>₽</small></p>
+        </div>
+        <div class="promo reveal">
+          <p class="promo__tag">Лояльность</p>
+          <h3 class="promo__name">7-ой кальян в подарок</h3>
+          <p class="promo__desc">Каждое 7-ое посещение кальян за наш счет</p>
+          <p class="promo__value">Подарок</p>
+        </div>
+        <div class="promo reveal">
+          <p class="promo__tag">Перезабивка</p>
+          <h3 class="promo__name">Свежая забивка</h3>
+          <p class="promo__desc">Перезабивка кальяна на классической чаше</p>
+          <p class="promo__value">1 850 <small>₽</small></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTS -->
+  <section class="section section--bg2" id="contacts">
+    <div class="section__in">
+      <div class="s-head reveal">
+        <p class="s-num">06 — Контакты</p>
+        <h2 class="s-title">Ждём вас <em>в Баркасе</em></h2>
+      </div>
+      <div class="contacts-list reveal">
+        <div class="contact-row">
+          <p class="contact-row__label">Телефон</p>
+          <p class="contact-row__value"><a class="phone" href="tel:+79647999998">+7 964 799 99 98</a></p>
+        </div>
+        <div class="contact-row">
+          <p class="contact-row__label">Адрес</p>
+          <p class="contact-row__value">
+            Москва, Хлебозаводский пр-д, 7а<br>
+            <a class="btn" href="https://yandex.ru/maps/213/moscow/?ll=37.631790%2C55.672681&mode=poi&poi%5Bpoint%5D=37.631350%2C55.671414&poi%5Buri%5D=ymapsbm1%3A%2F%2Forg%3Foid%3D34143522119&z=16.7" target="_blank" rel="noopener"><span>Смотреть на карте</span></a>
+          </p>
+        </div>
+        <div class="contact-row">
+          <p class="contact-row__label">Время работы</p>
+          <p class="contact-row__value">
+            Ежедневно<br>
+            <span class="dim">Пн–Пт</span> 10:00 — 00:00<br>
+            <span class="dim">Сб, Вс</span> 14:00 — 00:00
+          </p>
+        </div>
+        <div class="contact-row">
+          <p class="contact-row__label">Второе заведение</p>
+          <p class="contact-row__value">
+            <a class="venue-link" href="barkas-veranda.html">Баркас Веранда <span class="dim">ул. Речников, 21 · антикафе и лаундж</span></a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="footer__in">
+    <a class="footer__logo" href="index.html">Баркас<span>.</span></a>
+    <a href="barkas.html">Хлебозаводский</a>
+    <a href="barkas-veranda.html">Веранда</a>
+    <a href="https://t.me/BarkasLounge" target="_blank" rel="noopener">Telegram</a>
+    <p>Искусство отдыхать заранее</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var header = document.getElementById('header');
+  var burger = document.getElementById('burger');
+  var nav = document.getElementById('nav');
+
+  function onScroll(){
+    header.classList.toggle('scrolled', window.scrollY > 24);
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  function closeNav(){
+    nav.classList.remove('open');
+    burger.classList.remove('open');
+    burger.setAttribute('aria-expanded','false');
+    document.body.style.overflow = '';
+  }
+  burger.addEventListener('click', function(){
+    var open = nav.classList.toggle('open');
+    burger.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  nav.addEventListener('click', function(e){
+    if(e.target.tagName === 'A' || e.target === nav){ closeNav(); }
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && nav.classList.contains('open')){ closeNav(); }
+  });
+  window.addEventListener('resize', function(){
+    if(window.innerWidth > 920 && nav.classList.contains('open')){ closeNav(); }
+  });
+
+  document.querySelectorAll('[data-split]').forEach(function(el, blockIndex){
+    var text = el.textContent;
+    el.textContent = '';
+    var i = 0;
+    text.split('').forEach(function(ch){
+      var s = document.createElement('span');
+      s.className = 'ch';
+      s.style.setProperty('--i', blockIndex * 8 + i);
+      s.textContent = ch === ' ' ? '\u00A0' : ch;
+      el.appendChild(s);
+      i++;
+    });
+  });
+
+  document.querySelectorAll('[data-stagger]').forEach(function(group){
+    Array.prototype.forEach.call(group.children, function(child, idx){
+      child.style.setProperty('--d', (idx % 8) * 90 + 'ms');
+    });
+  });
+
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  },{threshold:.12,rootMargin:'0px 0px -6% 0px'});
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+
+  var parallaxEls = Array.prototype.slice.call(document.querySelectorAll('[data-parallax]'));
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function parallax(){
+    if(reduced) return;
+    var vh = window.innerHeight;
+    parallaxEls.forEach(function(el){
+      var r = el.getBoundingClientRect();
+      if(r.bottom < 0 || r.top > vh) return;
+      var speed = parseFloat(el.getAttribute('data-parallax')) || 0;
+      var offset = (r.top + r.height/2 - vh/2) * speed;
+      el.style.transform = 'translate3d(0,' + offset.toFixed(1) + 'px,0)' +
+        (el.classList.contains('gallery') === false && el.tagName === 'IMG' ? ' scale(1.12)' : '');
+    });
+  }
+  if(parallaxEls.length){
+    window.addEventListener('scroll', function(){ requestAnimationFrame(parallax); }, {passive:true});
+    window.addEventListener('resize', parallax);
+    parallax();
+  }
+})();
+</script>
+
+</body>
+</html>

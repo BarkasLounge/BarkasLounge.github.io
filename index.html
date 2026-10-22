@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Баркас — сеть заведений | Хлебозаводский и Веранда</title>
+<meta name="description" content="Баркас — искусство отдыхать заранее. Два заведения в Москве: Баркас Хлебозаводский (Хлебозаводский пр-д, 7а) и Баркас Веранда (ул. Речников, 21 с7).">
+<link rel="stylesheet" href="fonts/gf-local.css">
+<style>
+:root{
+  --bg:#131212;
+  --bg-2:#0b0b0b;
+  --bg-3:#1a1817;
+  --cream:#fdf7ec;
+  --cream-soft:rgba(242,239,233,.86);
+  --muted:rgba(213,209,204,.72);
+  --line:rgba(253,247,236,.12);
+  --line-strong:rgba(253,247,236,.22);
+  --font-display:'TT-Ricordi-Allegria','Georgia','Times New Roman',serif;
+  --font-body:'TT Drugs','Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;
+  --font-accent:'Caveat',cursive;
+  --offset-x:clamp(20px,4vw,64px);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font-body);
+  background:var(--bg);
+  color:var(--cream);
+  font-size:17px;
+  line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+  min-height:100vh;
+  display:flex;flex-direction:column;
+}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+
+/* ---------- header ---------- */
+.header{
+  padding:clamp(28px,4vw,48px) var(--offset-x) 0;
+  text-align:center;
+}
+.logo{
+  font-family:var(--font-display);
+  font-size:clamp(26px,3vw,34px);letter-spacing:.28em;text-transform:uppercase;
+}
+.logo span{color:#c95f9e}
+.header__tagline{
+  margin-top:14px;
+  font-size:12.5px;letter-spacing:.34em;text-transform:uppercase;
+  color:var(--muted);
+}
+.header__title{
+  margin-top:clamp(28px,5vw,56px);
+  font-family:var(--font-accent);font-weight:600;
+  font-size:clamp(48px,7.6vw,114px);
+  line-height:1.15;letter-spacing:.05em;
+}
+.header__title em{
+  font-style:italic;
+  padding-right:.15em;
+  background:linear-gradient(92deg,#8ba1d4,#e8c077,#e0796a);
+  -webkit-background-clip:text;background-clip:text;
+  color:transparent;-webkit-text-fill-color:transparent;
+}
+.header__note{
+  margin:clamp(18px,2.4vw,26px) auto 0;
+  max-width:560px;
+  font-size:16.5px;line-height:1.75;color:var(--muted);
+}
+
+/* ---------- book ---------- */
+.book{
+  margin-top:clamp(26px,3.4vw,40px);
+  display:flex;flex-direction:column;align-items:center;gap:12px;
+}
+.book__btn{
+  display:inline-flex;align-items:center;gap:12px;
+  font-size:12.5px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--cream);
+  border:1px solid var(--line-strong);
+  border-radius:10px;
+  padding:15px 28px;
+  position:relative;overflow:hidden;
+  transition:color .35s ease,border-color .35s ease;
+}
+.book__btn::before{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(92deg,#8ba1d4,#e8c077,#e0796a);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .4s cubic-bezier(.2,.65,.25,1);
+  z-index:0;
+}
+.book__btn span,.book__btn svg{position:relative;z-index:1}
+.book__btn:hover{color:var(--bg-2);border-color:transparent}
+.book__btn:hover::before{transform:scaleX(1)}
+.book__num{font-size:14px;letter-spacing:.14em;color:var(--muted);transition:color .25s ease}
+.book__num:hover{color:var(--cream)}
+.book__tg{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:13.5px;letter-spacing:.1em;color:var(--muted);
+  transition:color .25s ease;
+}
+.book__tg:hover{color:var(--cream)}
+.book__tg svg{flex:none}
+
+/* ---------- venues ---------- */
+.venues{
+  flex:1;
+  width:100%;max-width:1280px;margin:0 auto;
+  padding:clamp(40px,6vw,80px) var(--offset-x) clamp(60px,8vw,110px);
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));
+  gap:clamp(18px,2.6vw,30px);
+}
+.venue{
+  --a1:#8ba1d4;
+  --a2:#d97fb4;
+  position:relative;
+  min-height:520px;
+  border:1px solid var(--line);
+  border-radius:16px;
+  overflow:hidden;
+  display:flex;align-items:flex-end;
+  transition:transform .5s cubic-bezier(.2,.65,.25,1),border-color .35s ease,box-shadow .5s ease;
+}
+.venue--vr{--a1:#e8c077;--a2:#e0796a}
+.venue:hover{
+  transform:translateY(-10px);
+  border-color:var(--a1);
+  box-shadow:0 40px 80px -40px rgba(0,0,0,.85);
+}
+.venue__bg{
+  position:absolute;inset:0;
+  background-size:cover;background-position:center;
+  filter:grayscale(25%) brightness(.55) contrast(1.03);
+  transition:transform .9s cubic-bezier(.2,.65,.25,1),filter .5s ease;
+}
+.venue:hover .venue__bg{transform:scale(1.06);filter:grayscale(0) brightness(.62)}
+.venue__veil{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(60% 45% at 85% 90%,color-mix(in srgb,var(--a2) 22%,transparent) 0%,transparent 70%),
+    linear-gradient(to bottom,rgba(11,11,11,.25) 0%,rgba(11,11,11,.55) 55%,rgba(11,11,11,.95) 100%);
+}
+.venue__body{
+  position:relative;z-index:2;
+  width:100%;
+  padding:clamp(26px,3vw,40px);
+  display:flex;flex-direction:column;gap:14px;
+}
+.venue__line{
+  width:56px;height:2px;
+  background:linear-gradient(90deg,var(--a1),var(--a2));
+  margin-bottom:4px;
+}
+.venue__kind{
+  font-size:11.5px;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--a1);
+}
+.venue__name{
+  font-family:var(--font-accent);font-weight:600;letter-spacing:.05em;
+  font-size:clamp(36px,3.8vw,52px);
+  line-height:1.2;
+}
+.venue__name em{
+  font-style:italic;
+  padding-right:.15em;
+  background:linear-gradient(92deg,var(--a1),var(--a2));
+  -webkit-background-clip:text;background-clip:text;
+  color:transparent;-webkit-text-fill-color:transparent;
+}
+.venue__addr{font-size:15.5px;color:var(--cream-soft)}
+.venue__hours{font-size:13.5px;color:var(--muted)}
+.venue__btn{
+  margin-top:10px;
+  display:inline-flex;align-items:center;gap:12px;
+  align-self:flex-start;
+  font-size:12.5px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--cream);
+  border:1px solid var(--line-strong);
+  border-radius:10px;
+  padding:14px 26px;
+  position:relative;overflow:hidden;
+  transition:color .35s ease,border-color .35s ease;
+}
+.venue__btn::before{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,var(--a1),var(--a2));
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .4s cubic-bezier(.2,.65,.25,1);
+  z-index:0;
+}
+.venue__btn span{position:relative;z-index:1}
+.venue:hover .venue__btn{color:var(--bg-2);border-color:transparent}
+.venue:hover .venue__btn::before{transform:scaleX(1)}
+.venue__btn i{
+  font-style:normal;
+  transition:transform .3s ease;
+}
+.venue:hover .venue__btn i{transform:translateX(5px)}
+
+/* ---------- footer ---------- */
+.footer{
+  background:var(--bg-2);
+  color:var(--muted);
+  border-top:1px solid var(--line);
+  padding:clamp(30px,4vw,46px) var(--offset-x);
+}
+.footer__in{
+  max-width:1280px;margin:0 auto;
+  display:flex;flex-wrap:wrap;gap:12px 40px;
+  align-items:center;justify-content:space-between;
+  font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;
+  text-align:center;
+}
+.footer__logo{font-family:var(--font-display);font-size:17px;letter-spacing:.28em;color:var(--cream)}
+.footer__logo span{color:#c95f9e}
+.footer a{transition:color .25s ease}
+.footer a:hover{color:var(--cream)}
+
+/* ---------- reveal ---------- */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.65,.25,1);transition-delay:var(--d,0ms)}
+.reveal.visible{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001s !important;transition-duration:.001s !important}
+  .reveal{opacity:1;transform:none}
+}
+
+@media (max-width:560px){
+  .venue{min-height:440px}
+}
+</style>
+</head>
+<body>
+
+<header class="header reveal">
+  <p class="logo">Баркас<span>.</span></p>
+  <p class="header__tagline">Искусство отдыхать заранее</p>
+  <h1 class="header__title">Два места — <em>одна философия</em></h1>
+  <p class="header__note">Выберите заведение: лаунж с римской пиццей на Хлебозаводском или формат-клуб с антикафе и лаунджем на Речников.</p>
+  <div class="book reveal">
+    <a class="book__btn" href="tel:+79647999998" aria-label="Забронировать стол — позвонить">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      <span>Забронировать стол</span>
+    </a>
+    <a class="book__num" href="tel:+79647999998">+7 964 799 99 98</a>
+    <a class="book__tg" href="https://t.me/BarkasLounge" target="_blank" rel="noopener">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 15 22l-4-9-9-4 20-7z"/><path d="M22 2 11 13"/></svg>
+      Telegram — анонсы мероприятий
+    </a>
+  </div>
+</header>
+
+<main class="venues">
+  <a class="venue reveal" href="barkas.html">
+    <div class="venue__bg" style="background-image:url('barkas_files/hero.jpg')" role="presentation"></div>
+    <div class="venue__veil" role="presentation"></div>
+    <div class="venue__body">
+      <div class="venue__line"></div>
+      <p class="venue__kind">Кальяны · Пицца · Чай · Кофе</p>
+      <h2 class="venue__name">Баркас <em>Хлебозаводский</em></h2>
+      <p class="venue__addr">Москва, Хлебозаводский пр-д, 7а</p>
+      <p class="venue__hours">Пн–Пт 10:00–00:00 · Сб–Вс 14:00–00:00</p>
+      <span class="venue__btn"><span>Смотреть меню</span><i>→</i></span>
+    </div>
+  </a>
+
+  <a class="venue venue--vr reveal" href="barkas-veranda.html">
+    <div class="venue__bg" style="background-image:url('barkas-veranda_files/v-hero.jpg')" role="presentation"></div>
+    <div class="venue__veil" role="presentation"></div>
+    <div class="venue__body">
+      <div class="venue__line"></div>
+      <p class="venue__kind">Антикафе · Лаундж · Кальяны · Чай</p>
+      <h2 class="venue__name">Баркас <em>Веранда</em></h2>
+      <p class="venue__addr">Москва, ул. Речников, 21 с7 · вход с улицы</p>
+      <p class="venue__hours">Пн–Чт 12:00–00:00 · Пт 12:00–06:00 · Сб–Вс 14:00–06:00</p>
+      <span class="venue__btn"><span>Смотреть меню</span><i>→</i></span>
+    </div>
+  </a>
+</main>
+
+<footer class="footer">
+  <div class="footer__in">
+    <p class="footer__logo">Баркас<span>.</span></p>
+    <p>Москва · Хлебозаводский пр-д, 7а · ул. Речников, 21 с7</p>
+    <a href="tel:+79647999998">+7 964 799 99 98</a>
+    <a href="https://t.me/BarkasLounge" target="_blank" rel="noopener">Telegram</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var groups = document.querySelectorAll('.venues, .header');
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  },{threshold:.15});
+  document.querySelectorAll('.reveal').forEach(function(el, i){
+    el.style.setProperty('--d', (i % 4) * 120 + 'ms');
+    io.observe(el);
+  });
+})();
+</script>
+
+</body>
+</html>
