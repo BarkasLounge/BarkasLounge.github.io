@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Баркас Веранда — кальянная, антикафе и лаундж на Речников, 21 с7</title>
-<meta name="description" content="Баркас Веранда — искусство отдыхать заранее. Одно место — два формата: антикафе и лаундж. Кальянная карта, чай, кофе. Москва, ул. Речников, 21 с7.">
+<title>Баркас Веранда — кальянная, пицца, антикафе и лаундж на Речников, 21 с7</title>
+<meta name="description" content="Баркас Веранда — искусство отдыхать заранее. Одно место — два формата: антикафе и лаундж. Кальянная карта, римская пицца, чай, кофе. Москва, ул. Речников, 21 с7.">
 <link rel="stylesheet" href="fonts/gf-local.css">
 <style>
 :root{
@@ -320,6 +320,64 @@ section{scroll-margin-top:var(--header-height)}
 .card--photo:hover::before{filter:blur(4.5px) brightness(.62) saturate(.9)}
 .card--photo>*{position:relative;z-index:1}
 
+/* ---------- pizza ---------- */
+.pizza-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr));
+  gap:clamp(18px,2.4vw,28px);
+}
+.pizza{
+  position:relative;
+  background:var(--bg);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  overflow:hidden;
+  display:flex;flex-direction:column;
+  transition:transform .45s cubic-bezier(.2,.65,.25,1),border-color .35s ease,box-shadow .45s ease;
+}
+.pizza:hover{
+  transform:translateY(-8px);
+  border-color:rgba(232,192,119,.5);
+  box-shadow:0 30px 60px -30px rgba(0,0,0,.8);
+}
+.pizza__photo{
+  position:relative;
+  aspect-ratio:16/11;
+  overflow:hidden;
+}
+.pizza__photo img{
+  width:100%;height:100%;object-fit:cover;
+  filter:saturate(1) brightness(1);
+  transition:transform .8s cubic-bezier(.2,.65,.25,1),filter .5s ease;
+}
+.pizza:hover .pizza__photo img{transform:scale(1.07);filter:saturate(1.2) brightness(1.16)}
+.pizza__photo::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(11,11,11,.45) 0%,transparent 45%);
+}
+.pizza__price{
+  position:absolute;right:16px;bottom:14px;z-index:2;
+  font-family:var(--font-display);
+  font-size:clamp(22px,2vw,28px);
+  color:var(--cream);
+  background:rgba(11,11,11,.72);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  border:1px solid var(--line-strong);
+  border-radius:8px;
+  padding:6px 16px;
+}
+.pizza__price small{font-size:.55em;color:var(--gold-soft)}
+.pizza__body{
+  padding:clamp(22px,2.4vw,30px);
+  display:flex;flex-direction:column;gap:12px;flex:1;
+}
+.pizza__name{
+  font-family:var(--font-accent);font-weight:600;letter-spacing:.05em;
+  font-size:clamp(28px,2.7vw,36px);line-height:1.2;
+}
+.pizza__desc{font-size:15px;line-height:1.7;color:var(--muted)}
+
 /* ---------- tea ---------- */
 .tea-grid{
   display:grid;
@@ -574,6 +632,7 @@ section{scroll-margin-top:var(--header-height)}
       <a href="#formats">Форматы</a>
       <a href="#hookah">Кальяны</a>
       <a href="#tea">Чай</a>
+      <a href="#pizza">Пицца</a>
       <a href="#coffee">Кофе</a>
       <a href="#promo">Акции</a>
       <a href="#contacts">Контакты</a>
@@ -747,6 +806,69 @@ section{scroll-margin-top:var(--header-height)}
     </div>
   </section>
 
+  <!-- PIZZA -->
+  <section class="section section--bg2" id="pizza">
+    <div class="section__in">
+      <div class="s-head reveal">
+        <p class="s-num">04 — Кухня</p>
+        <h2 class="s-title">Римская <em>пицца</em></h2>
+        <p class="s-note">Тонкое римское тесто, горячая моцарелла и щедрые начинки.</p>
+      </div>
+      <div class="pizza-grid" data-stagger>
+        <article class="pizza reveal">
+          <div class="pizza__photo">
+            <img src="barkas_files/pizza-pepperoni.jpg" alt="Дабл Пепперони" loading="lazy">
+            <p class="pizza__price">890 <small>₽</small></p>
+          </div>
+          <div class="pizza__body">
+            <h3 class="pizza__name">Дабл Пепперони</h3>
+            <p class="pizza__desc">Любимая пепперони с бооооольшим количеством аппетитных колбасок! Томатная основа, горячая моцарелла и много-много сочной пепперони!</p>
+          </div>
+        </article>
+        <article class="pizza reveal">
+          <div class="pizza__photo">
+            <img src="barkas_files/pizza-bbq.jpg" alt="Бекон Барбекю" loading="lazy">
+            <p class="pizza__price">870 <small>₽</small></p>
+          </div>
+          <div class="pizza__body">
+            <h3 class="pizza__name">Бекон Барбекю</h3>
+            <p class="pizza__desc">Ярко, сочно! Томатная основа, горячая моцарелла, аппетитный бекон, слайсы шампиньонов, красный лук и мнооого фирменного соуса барбекю.</p>
+          </div>
+        </article>
+        <article class="pizza reveal">
+          <div class="pizza__photo">
+            <img src="barkas_files/pizza-salsa.jpg" alt="Супермясная Сальса" loading="lazy">
+            <p class="pizza__price">890 <small>₽</small></p>
+          </div>
+          <div class="pizza__body">
+            <h3 class="pizza__name">Супермясная Сальса</h3>
+            <p class="pizza__desc">Как же много начинки! Томатная основа, горячая моцарелла, много пепперони, слайсы бекона, ветчина из индейки, стручковая фасоль, кукуруза и еще сооооус сальса. Объедение!</p>
+          </div>
+        </article>
+        <article class="pizza reveal">
+          <div class="pizza__photo">
+            <img src="barkas_files/pizza-pesto.jpg" alt="Маргарита Песто" loading="lazy">
+            <p class="pizza__price">850 <small>₽</small></p>
+          </div>
+          <div class="pizza__body">
+            <h3 class="pizza__name">Маргарита Песто</h3>
+            <p class="pizza__desc">Простая, но не скучная классика! Томатная основа, горячая тянущаяся моцарелла и оригинальный соус песто.</p>
+          </div>
+        </article>
+        <article class="pizza reveal">
+          <div class="pizza__photo">
+            <img src="barkas_files/pizza-bechamel.jpg" alt="Цыпленок Бешамель" loading="lazy">
+            <p class="pizza__price">870 <small>₽</small></p>
+          </div>
+          <div class="pizza__body">
+            <h3 class="pizza__name">Цыпленок Бешамель</h3>
+            <p class="pizza__desc">Когда хочется курочки! Авторский соус бешамель в основе, тянущаяся моцарелла, подкопченный цыпленок, слайсы шампиньонов, болгарский перец, кукуруза.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
   <!-- GALLERY + QUOTE -->
   <section class="gallery">
     <div class="gallery__head reveal">
@@ -768,7 +890,7 @@ section{scroll-margin-top:var(--header-height)}
   <section class="section section--bg2" id="coffee">
     <div class="section__in">
       <div class="s-head reveal">
-        <p class="s-num">04 — Кофейная карта</p>
+        <p class="s-num">05 — Кофейная карта</p>
         <h2 class="s-title">Кофе. <em>Чем крепче, тем сильнее объятья</em></h2>
         <p class="s-note">В антикафе чай и кофе уже включены в стоимость посещения.</p>
       </div>
@@ -805,7 +927,7 @@ section{scroll-margin-top:var(--header-height)}
   <section class="section section--bg" id="promo">
     <div class="section__in">
       <div class="s-head reveal">
-        <p class="s-num">05 — Акции</p>
+        <p class="s-num">06 — Акции</p>
         <h2 class="s-title">Настало время <em>приятных сюрпризов</em></h2>
       </div>
       <div class="promo-grid" data-stagger>
@@ -841,7 +963,7 @@ section{scroll-margin-top:var(--header-height)}
   <section class="section section--bg2" id="contacts">
     <div class="section__in">
       <div class="s-head reveal">
-        <p class="s-num">06 — Контакты</p>
+        <p class="s-num">07 — Контакты</p>
         <h2 class="s-title">Ждём вас <em>на Веранде</em></h2>
       </div>
       <div class="contacts-list reveal">
