@@ -23,8 +23,27 @@
   --ease:cubic-bezier(.2,.65,.25,1);
   --glow:0 24px 70px -24px rgba(224,104,60,.45);
 }
-.v-khleb{--venue:#8fa0dd}
+.v-khleb{
+  --bg:#130e1a;--bg-2:#0d0a13;--bg-3:#1e1628;--card:#1a1325;
+  --a1:#f08bc5;--a2:#86a8ec;--a-small:#eb9ecb;
+  --grad:linear-gradient(100deg,var(--a1),var(--a2));
+  --grad-line:linear-gradient(90deg,var(--a1),var(--a2));
+  --venue:#f2a0cd;
+  --glow:0 24px 70px -24px rgba(240,139,197,.45);
+}
 .v-veranda{--venue:#f0b26a}
+.v-khleb .hero__eyebrow::before{box-shadow:0 0 12px rgba(242,160,205,.9);animation-name:candle-k}
+.v-khleb .card:hover{border-color:rgba(240,139,197,.42)}
+.v-khleb .pizza:hover{border-color:rgba(134,168,236,.45)}
+.v-khleb .pizza__price{border-color:rgba(240,139,197,.4)}
+.v-khleb .tea-cat:hover{border-color:rgba(240,139,197,.42)}
+.v-khleb .vol b{border-color:rgba(240,139,197,.5)}
+.v-khleb .promo:hover{border-color:rgba(134,168,236,.45)}
+.v-khleb .contact-row__value a.phone{border-color:rgba(240,139,197,.42)}
+.v-khleb .venue-link{border-color:rgba(240,139,197,.42)}
+.v-khleb .field input:focus,.v-khleb .field select:focus,.v-khleb .field textarea:focus{box-shadow:0 0 0 3px rgba(240,139,197,.16)}
+.v-khleb .form-msg--ok{background:rgba(240,139,197,.12);border-color:rgba(240,139,197,.4)}
+.v-khleb .gallery img{filter:brightness(.9)}
 
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -167,9 +186,9 @@ section{scroll-margin-top:var(--header-h)}
 }
 .v-khleb .hero__veil{
   background:
-    radial-gradient(50% 42% at 78% 76%,rgba(143,160,221,.14) 0%,transparent 70%),
-    radial-gradient(55% 45% at 12% 84%,rgba(224,104,60,.14) 0%,transparent 70%),
-    linear-gradient(to bottom,rgba(18,12,7,.6) 0%,rgba(18,12,7,.24) 46%,rgba(18,12,7,.97) 100%);
+    radial-gradient(50% 42% at 78% 76%,rgba(240,139,197,.16) 0%,transparent 70%),
+    radial-gradient(55% 45% at 12% 84%,rgba(134,168,236,.15) 0%,transparent 70%),
+    linear-gradient(to bottom,rgba(13,10,19,.6) 0%,rgba(13,10,19,.24) 46%,rgba(13,10,19,.97) 100%);
 }
 .hero__in{
   position:relative;z-index:2;
@@ -660,7 +679,7 @@ section{scroll-margin-top:var(--header-h)}
   gap:clamp(18px,2.6vw,30px);
 }
 .venue-card{
-  --vc1:#8fa0dd;--vc2:#c9a1e8;
+  --vc1:#f08bc5;--vc2:#86a8ec;
   position:relative;
   min-height:540px;
   border:1px solid var(--line);
@@ -914,6 +933,10 @@ section{scroll-margin-top:var(--header-h)}
 @keyframes candle{
   0%,100%{box-shadow:0 0 8px rgba(240,178,106,.7)}
   50%{box-shadow:0 0 16px rgba(240,178,106,1)}
+}
+@keyframes candle-k{
+  0%,100%{box-shadow:0 0 8px rgba(242,160,205,.7)}
+  50%{box-shadow:0 0 16px rgba(242,160,205,1)}
 }
 @keyframes modalIn{from{opacity:0;transform:translateY(26px) scale(.98)}to{opacity:1;transform:none}}
 
