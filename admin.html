@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Панель управления — Баркас</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#120c07">
+<link rel="stylesheet" href="fonts/gf-local.css">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+.admin-page{min-height:100vh;background:var(--bg-2)}
+.admin-top{border-bottom:1px solid var(--line);background:var(--bg);padding:18px var(--offset-x);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.admin-tabs{display:flex;gap:8px;flex-wrap:wrap;padding:16px var(--offset-x) 0;max-width:1280px;margin:0 auto}
+.admin-tabs button{
+  font-size:14px;font-weight:600;color:var(--muted);
+  border:1px solid var(--line-strong);border-radius:12px;padding:11px 20px;
+  transition:color .25s ease,border-color .25s ease,background .25s ease;
+}
+.admin-tabs button:hover{color:var(--cream)}
+.admin-tabs button.active{background:var(--grad);color:#1b1208;border-color:transparent}
+.admin-body{max-width:1280px;margin:0 auto;padding:24px var(--offset-x) 80px}
+.panel{display:none}
+.panel.active{display:block}
+.row-list{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.row-item{
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  padding:14px 18px;border-bottom:1px solid var(--line);
+  background:var(--card);font-size:14.5px;
+}
+.row-item:last-child{border-bottom:0}
+.row-item .grow{flex:1;min-width:180px}
+.row-item small{color:var(--muted);display:block}
+.mini{font-size:12.5px;font-weight:600;padding:8px 14px;border-radius:10px;border:1px solid var(--line-strong);color:var(--cream-soft);transition:color .2s ease,border-color .2s ease}
+.mini:hover{color:var(--a1);border-color:var(--a1)}
+.mini--warn:hover{color:#ffb59c;border-color:#e0683c}
+.editor{margin-top:20px;border:1px solid var(--line-strong);border-radius:var(--radius);background:var(--card);padding:clamp(20px,2.5vw,32px)}
+.editor h3{font-family:var(--font-display);font-weight:600;font-size:32px;margin-bottom:16px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:0 16px}
+.check{display:flex;align-items:center;gap:10px;font-size:14.5px;color:var(--cream-soft);margin-bottom:16px}
+.check input{width:18px;height:18px;accent-color:#e0683c}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:6px}
+.gal-item{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap}
+.gal-item img{width:110px;height:140px;object-fit:cover;border-radius:12px;border:1px solid var(--line)}
+.gal-fields{display:flex;flex-direction:column;gap:10px;flex:1;min-width:220px}
+.gal-fields .field{margin-bottom:0}
+.bk-status{padding:5px 10px;border-radius:8px;font-size:12px;font-weight:600}
+.st-new{background:rgba(240,178,106,.15);color:var(--a1)}
+.st-confirmed{background:rgba(120,200,120,.15);color:#9fd69f}
+.st-cancelled{background:rgba(224,104,60,.15);color:#ffb59c}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+th{color:var(--muted);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase}
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.login-wrap .modal{max-width:400px}
+.hint{font-size:12.5px;color:var(--muted);margin-top:8px}
+@media (max-width:720px){.grid2,.grid3{grid-template-columns:1fr}}
+</style>
+</head>
+<body class="admin-page">
+
+<div class="login-wrap" id="loginView">
+  <div class="modal">
+    <h3 class="modal__title">Панель управления</h3>
+    <p class="modal__sub">Вход только для сотрудников Баркас</p>
+    <form id="adminLoginForm" novalidate>
+      <div class="field">
+        <label for="alEmail">Логин (email)</label>
+        <input id="alEmail" type="email" autocomplete="username">
+      </div>
+      <div class="field">
+        <label for="alPass">Пароль</label>
+        <input id="alPass" type="password" autocomplete="current-password">
+      </div>
+      <p class="form-msg" id="alMsg"></p>
+      <button class="btn btn--solid" type="submit" style="width:100%">Войти</button>
+    </form>
+  </div>
+</div>
+
+<div id="appView" style="display:none">
+  <div class="admin-top">
+    <a class="logo" href="index.html">Баркас<span>.</span></a>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+      <span style="font-size:13px;color:var(--muted)" id="whoami"></span>
+      <button class="mini" id="btnLogout">Выйти</button>
+    </div>
+  </div>
+
+  <div class="admin-tabs" id="tabs">
+    <button data-tab="menu" class="active">Меню</button>
+    <button data-tab="gallery">Галерея «Наш вайб»</button>
+    <button data-tab="promos">Акции</button>
+    <button data-tab="bookings">Брони</button>
+    <button data-tab="settings" id="tabSettings" style="display:none">Настройки</button>
+  </div>
+
+  <div class="admin-body">
+
+    <section class="panel active" id="tab-menu">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px">
+        <select id="fltVenue" class="field" style="width:auto;margin:0;padding:10px 14px">
+          <option value="">Все площадки</option>
+          <option value="khleb">Хлебозаводский</option>
+          <option value="veranda">Веранда</option>
+        </select>
+        <select id="fltCat" class="field" style="width:auto;margin:0;padding:10px 14px">
+          <option value="">Все категории</option>
+          <option value="hookah">Кальяны</option>
+          <option value="pizza">Пицца</option>
+          <option value="tea">Чай</option>
+          <option value="coffee">Кофе</option>
+        </select>
+        <button class="btn btn--solid" id="btnNewItem" style="padding:10px 20px">Добавить позицию</button>
+      </div>
+      <div class="row-list" id="menuList"></div>
+      <div class="editor" id="menuEditor" style="display:none">
+        <h3 id="mfHead">Позиция</h3>
+        <input type="hidden" id="mf_id">
+        <div class="grid2">
+          <div class="field"><label>Название</label><input id="mf_name"></div>
+          <div class="field"><label>Бейдж (Хит / Новинка, необязательно)</label><input id="mf_badge" placeholder="Хит"></div>
+          <div class="field"><label>Площадка</label>
+            <select id="mf_venue"><option value="khleb">Хлебозаводский</option><option value="veranda">Веранда</option><option value="both">Обе</option></select>
+          </div>
+          <div class="field"><label>Категория (шаблон)</label>
+            <select id="mf_cat"><option value="hookah">Кальяны</option><option value="pizza">Пицца</option><option value="tea">Чай</option><option value="coffee">Кофе</option></select>
+          </div>
+        </div>
+        <div class="field"><label>Описание</label><textarea id="mf_desc" rows="3"></textarea></div>
+        <div class="grid3">
+          <div class="field"><label>Цена, ₽</label><input id="mf_price" type="number" min="0" inputmode="numeric"></div>
+          <div class="field mf-coffee"><label>Цена S, ₽</label><input id="mf_ps" type="number" min="0" inputmode="numeric"></div>
+          <div class="field mf-coffee"><label>Цена M, ₽</label><input id="mf_pm" type="number" min="0" inputmode="numeric"></div>
+        </div>
+        <div class="grid3">
+          <div class="field mf-coffee"><label>Цена L, ₽</label><input id="mf_pl" type="number" min="0" inputmode="numeric"></div>
+          <div class="field"><label>Вес, г</label><input id="mf_weight" type="number" min="0" inputmode="numeric"></div>
+          <div class="field"><label>Сортировка</label><input id="mf_sort" type="number" inputmode="numeric"></div>
+        </div>
+        <div class="grid3">
+          <div class="field"><label>Ккал (на 100 г)</label><input id="mf_kcal" type="number" min="0" inputmode="numeric"></div>
+          <div class="field"><label>Белки</label><input id="mf_prot" type="number" min="0" step="0.1" inputmode="decimal"></div>
+          <div class="field"><label>Жиры</label><input id="mf_fat" type="number" min="0" step="0.1" inputmode="decimal"></div>
+        </div>
+        <div class="grid2">
+          <div class="field"><label>Углеводы</label><input id="mf_carb" type="number" min="0" step="0.1" inputmode="decimal"></div>
+          <div class="field"><label>Фото (текущее)</label><input id="mf_photo" readonly placeholder="не задано"></div>
+        </div>
+        <div class="field"><label>Загрузить новое фото (JPEG/PNG, до 8 МБ)</label><input id="mf_file" type="file" accept="image/jpeg,image/png,image/webp"></div>
+        <label class="check"><input type="checkbox" id="mf_active" checked> Показывать на сайте</label>
+        <p class="form-msg" id="mfMsg"></p>
+        <div class="actions">
+          <button class="btn btn--solid" id="mfSave">Сохранить</button>
+          <button class="btn btn--ghost" id="mfCancel">Отмена</button>
+          <button class="mini mini--warn" id="mfDelete" style="display:none">Удалить позицию</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="tab-gallery">
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px">
+        <select id="galVenue" class="field" style="width:auto;margin:0;padding:10px 14px">
+          <option value="khleb">Хлебозаводский</option>
+          <option value="veranda">Веранда</option>
+        </select>
+        <span class="hint">Фотографии раздела «Наш вайб». Замена/порядок/скрытие — сразу на сайте.</span>
+      </div>
+      <div class="row-list" id="galList"></div>
+      <div class="editor">
+        <h3>Добавить фото</h3>
+        <div class="grid2">
+          <div class="field"><label>Alt-подпись</label><input id="gaAlt" placeholder="Баркас — наш вайб"></div>
+          <div class="field"><label>Сортировка</label><input id="gaSort" type="number" inputmode="numeric" value="10"></div>
+        </div>
+        <div class="field"><label>Файл</label><input id="gaFile" type="file" accept="image/jpeg,image/png,image/webp"></div>
+        <p class="form-msg" id="gaMsg"></p>
+        <button class="btn btn--solid" id="gaAdd">Добавить</button>
+      </div>
+    </section>
+
+    <section class="panel" id="tab-promos">
+      <div style="margin-bottom:16px">
+        <button class="btn btn--solid" id="btnNewPromo" style="padding:10px 20px">Добавить акцию</button>
+      </div>
+      <div class="row-list" id="promoList"></div>
+      <div class="editor" id="promoEditor" style="display:none">
+        <h3 id="pfHead">Акция</h3>
+        <input type="hidden" id="pf_id">
+        <div class="grid2">
+          <div class="field"><label>Заголовок</label><input id="pf_title"></div>
+          <div class="field"><label>Метка (День рождения, Счастливые часы…)</label><input id="pf_tag"></div>
+          <div class="field"><label>Площадка</label>
+            <select id="pf_venue"><option value="khleb">Хлебозаводский</option><option value="veranda">Веранда</option><option value="both">Обе</option></select>
+          </div>
+          <div class="field"><label>Значение (−7%, 2 100 ₽, Подарок…)</label><input id="pf_value"></div>
+          <div class="field"><label>Сортировка</label><input id="pf_sort" type="number" inputmode="numeric"></div>
+        </div>
+        <div class="field"><label>Описание</label><textarea id="pf_desc" rows="2"></textarea></div>
+        <div class="field"><label>Условия (страница правил)</label><textarea id="pf_rules" rows="2"></textarea></div>
+        <label class="check"><input type="checkbox" id="pf_active" checked> Показывать на сайте</label>
+        <p class="form-msg" id="pfMsg"></p>
+        <div class="actions">
+          <button class="btn btn--solid" id="pfSave">Сохранить</button>
+          <button class="btn btn--ghost" id="pfCancel">Отмена</button>
+          <button class="mini mini--warn" id="pfDelete" style="display:none">Удалить акцию</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="tab-bookings">
+      <div class="row-list" id="bkList" style="padding:6px 18px"></div>
+    </section>
+
+    <section class="panel" id="tab-settings">
+      <div class="editor">
+        <h3>Правила акций (страница promos.html)</h3>
+        <div class="field"><textarea id="setRules" rows="4"></textarea></div>
+        <p class="form-msg" id="setMsg"></p>
+        <button class="btn btn--solid" id="setSave">Сохранить правила</button>
+      </div>
+      <div class="editor" style="margin-top:20px">
+        <h3>Telegram-уведомления о бронях</h3>
+        <p class="hint" style="margin-bottom:14px">Токен бота хранится в базе и нигде не публикуется. Chat_id можно сменить или очистить в любой момент.</p>
+        <div class="grid2">
+          <div class="field"><label>Chat ID получателя</label><input id="setChat" placeholder="1087339229"></div>
+          <div class="field" style="display:flex;align-items:flex-end"><button class="btn btn--ghost" id="tgTest" style="width:100%">Тест — прислать сообщение</button></div>
+        </div>
+        <p class="form-msg" id="tgMsg"></p>
+        <button class="btn btn--solid" id="chatSave">Сохранить chat_id</button>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<div class="toast" role="status"></div>
+<script src="assets/admin.js"></script>
+</body>
+</html>

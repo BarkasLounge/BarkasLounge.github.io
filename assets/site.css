@@ -859,6 +859,7 @@ section{scroll-margin-top:var(--header-h)}
 }
 .form-msg.show{display:block}
 .form-msg--err{background:rgba(224,104,60,.12);border:1px solid rgba(224,104,60,.4);color:#ffb59c}
+.form-msg--ok{background:rgba(240,178,106,.12);border:1px solid rgba(240,178,106,.4);color:var(--a1)}
 .hp{position:absolute;left:-9999px;opacity:0;height:0;overflow:hidden}
 .kbju{
   display:grid;grid-template-columns:repeat(4,1fr);gap:10px;

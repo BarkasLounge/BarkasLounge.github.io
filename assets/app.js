@@ -1,5 +1,5 @@
-var SUPABASE_URL = '';
-var SUPABASE_ANON_KEY = '';
+var SUPABASE_URL = 'https://dszbzitphenbqdsybtdt.supabase.co';
+var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRzemJ6aXRwaGVuYnFkc3lidGR0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM1NTE0ODUsImV4cCI6MjEwOTEyNzQ4NX0.SQxeaALW3F2YSzzhEj_JEavv24iFhHEGtCygVJukQHo';
 
 (function(){
   var TEL = '+79647999998';
@@ -182,13 +182,49 @@ var SUPABASE_ANON_KEY = '';
     loginForm.addEventListener('submit', function(e){
       e.preventDefault();
       var msg = $('#loginMsg');
+      var u = $('#lgUser').value.trim();
+      var p = $('#lgPass').value;
       if(!SUPABASE_URL || !SUPABASE_ANON_KEY){
         msg.className = 'form-msg form-msg--err show';
-        msg.textContent = 'Панель управления ещё не подключена к базе. Обратитесь к разработчику.';
+        msg.textContent = 'Панель управления ещё не подключена к базе.';
         return;
       }
-      msg.className = 'form-msg form-msg--err show';
-      msg.textContent = 'Вход временно недоступен.';
+      msg.className = 'form-msg show';
+      msg.textContent = 'Проверяем…';
+      fetch(SUPABASE_URL + '/auth/v1/token?grant_type=password', {
+        method: 'POST',
+        headers: { 'apikey': SUPABASE_ANON_KEY, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: u, password: p })
+      }).then(function(r){ return r.json().then(function(j){ return { ok: r.ok, j: j }; }); })
+        .then(function(res){
+          if(!res.ok || !res.j.access_token){
+            msg.className = 'form-msg form-msg--err show';
+            msg.textContent = 'Неверный логин или пароль.';
+            return;
+          }
+          return fetch(SUPABASE_URL + '/rest/v1/profiles?select=role&id=eq.' + res.j.user.id, {
+            headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + res.j.access_token }
+          }).then(function(r){ return r.json(); }).then(function(pr){
+            var role = (pr && pr[0] && pr[0].role) || null;
+            if(!role){
+              msg.className = 'form-msg form-msg--err show';
+              msg.textContent = 'У учётной записи нет доступа к панели.';
+              return;
+            }
+            localStorage.setItem('barkas_admin_session', JSON.stringify({
+              access: res.j.access_token,
+              refresh: res.j.refresh_token,
+              role: role,
+              uid: res.j.user.id,
+              at: Date.now()
+            }));
+            location.href = 'admin.html';
+          });
+        })
+        .catch(function(){
+          msg.className = 'form-msg form-msg--err show';
+          msg.textContent = 'Нет связи с сервером.';
+        });
     });
   }
 
@@ -346,11 +382,47 @@ var SUPABASE_ANON_KEY = '';
       if(!ok){ return; }
       if(!SUPABASE_URL || !SUPABASE_ANON_KEY){
         msg.className = 'form-msg form-msg--err show';
-        msg.innerHTML = 'Онлайн-бронирование вот-вот заработает. Пока забронируйте по телефону <a href="tel:' + TEL + '" style="color:var(--a1)">' + TEL_PRETTY + '</a>';
+        msg.innerHTML = 'Онлайн-бронирование временно недоступно. Позвоните: <a href="tel:' + TEL + '" style="color:var(--a1)">' + TEL_PRETTY + '</a>';
         return;
       }
       msg.className = 'form-msg show';
       msg.textContent = 'Отправляем…';
+      var btn = bookForm.querySelector('button[type="submit"]');
+      btn.disabled = true;
+      fetch(SUPABASE_URL + '/rest/v1/bookings', {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=representation'
+        },
+        body: JSON.stringify({
+          venue: venueOf(),
+          name: name,
+          phone: phoneInp.value,
+          date: date,
+          time: time,
+          guests: bookState.guests
+        })
+      }).then(function(r){
+        return r.json().then(function(j){ return { ok: r.ok, j: j }; });
+      }).then(function(res){
+        btn.disabled = false;
+        if(res.ok && res.j && res.j[0]){
+          bookForm.reset();
+          updateGuests();
+          msg.className = 'form-msg form-msg--ok show';
+          msg.innerHTML = 'Бронь <b>#' + String(res.j[0].id).slice(0, 8).toUpperCase() + '</b> принята! Мы позвоним вам для подтверждения.';
+        } else {
+          msg.className = 'form-msg form-msg--err show';
+          msg.innerHTML = 'Не получилось отправить. Позвоните: <a href="tel:' + TEL + '" style="color:var(--a1)">' + TEL_PRETTY + '</a>';
+        }
+      }).catch(function(){
+        btn.disabled = false;
+        msg.className = 'form-msg form-msg--err show';
+        msg.innerHTML = 'Нет связи. Позвоните: <a href="tel:' + TEL + '" style="color:var(--a1)">' + TEL_PRETTY + '</a>';
+      });
     });
   }
 
@@ -385,27 +457,57 @@ var SUPABASE_ANON_KEY = '';
       .then(function(r){ return r.ok ? r.json() : null; })
       .then(function(items){
         if(!items){ return; }
+        var seen = {};
         items.forEach(function(it){
           var el = document.querySelector('[data-item-id="' + it.id + '"]');
-          if(!el){
-            return;
+          if(el){
+            seen[it.id] = true;
+            applyItem(el, it);
           }
-          var priceEl = el.querySelector('[data-price]');
-          if(priceEl && it.price != null){ priceEl.textContent = it.price; }
-          var nameEl = el.querySelector('[data-name]');
-          if(nameEl && it.name){ nameEl.textContent = it.name; }
-          var descEl = el.querySelector('[data-desc]');
-          if(descEl && it.description){ descEl.textContent = it.description; }
-          var imgEl = el.querySelector('img');
-          if(imgEl && it.photo_path){ imgEl.src = it.photo_path; }
-          if(it.weight_g != null){ el.dataset.weight = it.weight_g; }
-          if(it.kcal != null){ el.dataset.kcal = it.kcal; }
-          if(it.protein != null){ el.dataset.prot = it.protein; }
-          if(it.fat != null){ el.dataset.fat = it.fat; }
-          if(it.carb != null){ el.dataset.carb = it.carb; }
+        });
+        items.forEach(function(it){
+          if(seen[it.id]){ return; }
+          var cat = it.category || 'hookah';
+          var venue = it.venue === 'both'
+            ? (document.body.classList.contains('v-veranda') ? 'veranda' : 'khleb')
+            : it.venue;
+          var proto = document.querySelector('[data-item-id^="' + venue + '-' + cat + '-"]');
+          if(!proto || !proto.parentElement){ return; }
+          var clone = proto.cloneNode(true);
+          clone.setAttribute('data-item-id', it.id);
+          clone.classList.add('visible');
+          clone.classList.remove('reveal');
+          applyItem(clone, it);
+          proto.parentElement.appendChild(clone);
         });
       })
       .catch(function(){});
+    function applyItem(el, it){
+      var priceEl = el.querySelector('[data-price]');
+      if(priceEl && it.price != null){ priceEl.textContent = it.price; }
+      var ps = el.querySelector('[data-price-s]');
+      if(ps){ ps.textContent = it.price_s != null ? it.price_s : ''; }
+      var pm = el.querySelector('[data-price-m]');
+      if(pm){ pm.textContent = it.price_m != null ? it.price_m : ''; }
+      var pl = el.querySelector('[data-price-l]');
+      if(pl){ pl.textContent = it.price_l != null ? it.price_l : ''; }
+      var nameEl = el.querySelector('[data-name]');
+      if(nameEl && it.name){ nameEl.textContent = it.name; }
+      var descEl = el.querySelector('[data-desc]');
+      if(descEl && it.description){ descEl.textContent = it.description; }
+      var imgEl = el.querySelector('img');
+      if(imgEl && it.photo_path){ imgEl.src = it.photo_path; }
+      if(it.weight_g != null){ el.dataset.weight = it.weight_g; }
+      if(it.kcal != null){ el.dataset.kcal = it.kcal; }
+      if(it.protein != null){ el.dataset.prot = it.protein; }
+      if(it.fat != null){ el.dataset.fat = it.fat; }
+      if(it.carb != null){ el.dataset.carb = it.carb; }
+      var b = el.querySelector('.badge');
+      if(it.badge){
+        if(!b){ b = document.createElement('p'); b.className = 'badge'; el.querySelector('.card__photo, .pizza__photo').appendChild(b); }
+        b.textContent = it.badge;
+      } else if(b){ b.remove(); }
+    }
     fetch(SUPABASE_URL + '/rest/v1/promos?select=*&is_active=eq.true&order=sort.asc', { headers: headers })
       .then(function(r){ return r.ok ? r.json() : null; })
       .then(function(promos){ if(promos){ window.__barkasPromos = promos; } })
