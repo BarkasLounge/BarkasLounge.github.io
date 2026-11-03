@@ -366,7 +366,7 @@ var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYm
       var msg = $('#bookMsg');
       var hp = $('#bkHp').value;
       var elapsed = Date.now() - (bookState.openedAt || 0);
-      if(hp || elapsed < 5000){
+      if(hp || elapsed < 1500){
         toast('Похоже, автоматическая отправка. Если это не так — позвоните нам.');
         return;
       }
@@ -415,6 +415,7 @@ var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYm
           msg.className = 'form-msg form-msg--ok show';
           msg.innerHTML = 'Бронь <b>#' + String(res.j[0].id).slice(0, 8).toUpperCase() + '</b> принята! Мы позвоним вам для подтверждения.';
         } else {
+          console.error('booking submit failed:', res.ok, res.j);
           msg.className = 'form-msg form-msg--err show';
           msg.innerHTML = 'Не получилось отправить. Позвоните: <a href="tel:' + TEL + '" style="color:var(--a1)">' + TEL_PRETTY + '</a>';
         }
